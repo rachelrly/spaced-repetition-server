@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken')
 function makeKnexInstance() {
   return knex({
     client: 'pg',
-    connection: process.env.TEST_DB_URL,
+    connection: process.env.TEST_DATABASE_URL,
   })
 }
 
@@ -115,7 +115,7 @@ function cleanTables(db) {
         "word",
         "language",
         "user"`
-      )
+    )
       .then(() =>
         Promise.all([
           trx.raw(`ALTER SEQUENCE word_id_seq minvalue 0 START WITH 1`),
