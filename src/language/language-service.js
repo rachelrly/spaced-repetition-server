@@ -31,14 +31,9 @@ const LanguageService = {
 
   getHead(db, language_id) {
     return db
-      .join('language', 'word')
-      .select(
-        'language.head',
-        'language.total_score',
-        'word.original',
-        'word.correct_count',
-        'word.incorrect_count'
-      )
+      .from('word')
+      .join('language', { 'language.head': 'word.id' })
+      .select('total_score', 'original', 'translation', 'correct_count', 'incorrect_count')
       .where({ language_id })
   }
 }
