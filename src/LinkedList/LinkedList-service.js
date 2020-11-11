@@ -1,50 +1,80 @@
 const LinkedList = require('./LinkedList');
 
-function display(list) {
-    let thisNode = list.head;
-    while (thisNode.next) {
-        console.log('NODE:', thisNode, 'NEXT:', thisNode.next)
-        thisNode = thisNode.next;
-    }
+let WordList = new LinkedList;
 
-    return true;
-}
 const LinkedListService = {
     createLinkedList(head, words) {
-        let list = new LinkedList;
-
         const getWord = id => words.find(w => w.id === id)
 
         const addWord = word => {
             if (word.next === null) {
                 return;
             }
-            list.insertLast(word)
-            console.log(list)
-            console.log(word)
+            WordList.insertLast(word)
+
             return addWord(getWord(word.next))
         }
 
         addWord(getWord(head))
 
-        return list;
+        return WordList;
     },
-
-    // moveElement(list, val) {
-    //     if (val === 1) {
-    //         let temp = list.head.next
-    //         list.head = 
-
-    //     }
+    moveCorrectWord(num) {
 
 
 
 
-    // }
 
 
+
+
+
+    },
+    moveIncorrectWord(list) {
+        let node = list.head;
+        let hold = node.next
+
+        node.next = node.next.next
+        node.value.next = node.next.value.id
+
+        hold.value.next = node.value.id
+
+        list.insertFirst(hold, node)
+
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function display(list) {
+//     let thisNode = list.head;
+//     while (thisNode.next) {
+//         console.log('NODE:', thisNode, 'NEXT:', thisNode.next)
+//         thisNode = thisNode.next;
+//     }
+
+//     return true;
+
+
+
+
 const n = { id: 7, language_id: 1, original: "Videre", translation: "To look, see", next: null }
 const arr = [
     { id: 1, language_id: 1, original: "ante", translation: "Before", next: 2 },
@@ -55,13 +85,26 @@ const arr = [
     { id: 6, language_id: 1, original: "Dicere", translation: "To say", next: null },
 ]
 
-const ll = LinkedListService.createLinkedList(1, arr)
-console.log('BEFORE FUNC', ll)
 
-display(ll)
+LinkedListService.createLinkedList(1, arr)
+
+
+LinkedListService.moveIncorrectWord(WordList)
+
+console.log('SECOND', WordList)
+
+
+
+
+// const ll = LinkedListService.createLinkedList(1, arr)
+// console.log('BEFORE FUNC', ll)
+
+// display(ll)
 
 // ll.insertSecond()
 // display(ll)
 
-console.log('AFTER FUNC', ll)
-module.exports = LinkedListService;
+module.exports = {
+    WordList,
+    LinkedListService
+};

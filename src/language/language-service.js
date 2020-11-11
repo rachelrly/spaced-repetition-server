@@ -33,12 +33,12 @@ const LanguageService = {
     return db
       .from('word')
       .join('language', { 'language.head': 'word.id' })
-      .select('total_score', 'original', 'translation', 'correct_count', 'incorrect_count')
+      .select('total_score', 'original', 'translation', 'correct_count', 'incorrect_count', 'memory_value')
       .where({ language_id })
   },
 
   updateCorrect(db, language_id, head) {
-    console.log('LANG ID', language_id)
+    console.log('MEMORY VALUE', head.memory_value)
     return db
       .from('language')
       .where({ id: language_id })
@@ -49,7 +49,7 @@ const LanguageService = {
           .where({ original: head.original })
           .update({
             correct_count: head.correct_count + 1,
-            memory_value: 2
+            memory_value: head.memory_value * 2
           })
       })
 
