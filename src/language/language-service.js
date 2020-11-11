@@ -35,7 +35,41 @@ const LanguageService = {
       .join('language', { 'language.head': 'word.id' })
       .select('total_score', 'original', 'translation', 'correct_count', 'incorrect_count')
       .where({ language_id })
+  },
+
+  updateCorrect(db, language_id, head) {
+    console.log('LANG ID', language_id)
+    return db
+      .from('language')
+      .where({ id: language_id })
+      .update({ total_score: head.total_score + 1 })
+      .then(() => {
+        return db
+          .from('word')
+          .where({ original: head.original })
+          .update({
+            correct_count: head.correct_count + 1,
+            memory_value: 2
+          })
+      })
+
+    //then update LL
+  },
+
+  updateIncorrect(db, head) {
+    return db
+      .from('word')
+      .where({ original: head.original })
+      .update({
+        incorrect_count: head.incorrect_count + 1,
+        memory_value: 1
+      })
+    //then update LL
   }
+
+
+
+
 }
 
 module.exports = LanguageService
