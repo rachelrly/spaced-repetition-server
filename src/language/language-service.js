@@ -1,3 +1,4 @@
+
 const LanguageService = {
   getUsersLanguage(db, user_id) {
     return db
@@ -38,7 +39,6 @@ const LanguageService = {
   },
 
   updateCorrect(db, language_id, head) {
-    console.log('MEMORY VALUE', head.memory_value)
     return db
       .from('language')
       .where({ id: language_id })

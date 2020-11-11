@@ -74,25 +74,27 @@ languageRouter
         req.language.id
       )
 
-      const h = await LanguageService.updateCorrect(
-        req.app.get('db'),
-        req.language.id,
-        head
-      )
-      return res
-        .status(200)
-        .end()
+      if (answer == head.translation) {
+        const h = await LanguageService.updateCorrect(
+          req.app.get('db'),
+          req.language.id,
+          head
+        )
+        return res
+          .status(200)
+          .json({ answer: true })
+          .end()
 
-      // } else {
-      //   const h = await LanguageService.updateIncorrect(
-      //     req.app.get('db'),
-      //     head
-      //   )
-
-      //   return res
-      //     .status(200)
-      //     .end()
-      // }
+      } else {
+        const h = await LanguageService.updateIncorrect(
+          req.app.get('db'),
+          head
+        )
+        return res
+          .status(200)
+          .json({ answer: false })
+          .end()
+      }
 
     } catch (error) {
       next(error)
