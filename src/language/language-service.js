@@ -34,7 +34,7 @@ const LanguageService = {
     return db
       .from('word')
       .join('language', { 'language.head': 'word.id' })
-      .select('total_score', 'original', 'translation', 'correct_count', 'incorrect_count', 'memory_value', 'word.id')
+      .select('total_score', 'original', 'translation', 'correct_count', 'incorrect_count', 'memory_value', 'language.head')
       .where({ language_id })
   },
 

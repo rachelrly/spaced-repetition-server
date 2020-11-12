@@ -5,6 +5,7 @@ const languageRouter = express.Router()
 const jsonBodyParser = express.json()
 const { LinkedListService, WordList } = require('../LinkedList/LinkedList-service')
 console.log('WORDLIST', WordList)
+
 languageRouter
   .use(requireAuth)
   .use(async (req, res, next) => {
@@ -53,13 +54,14 @@ languageRouter
         req.language.id
       )
 
-      const [words] = await LanguageService.getLanguageWords(
+      const words = await LanguageService.getLanguageWords(
         req.app.get('db'),
         req.language.id
       )
+      console.log(head.head)
 
-      if (WordList === {}) {
-        WordList = LinkedListService.createLinkedList(head.id, words)
+      if (!WordList.head || WordList.head === null) {
+        LinkedListService.createLinkedList(WordList, head.head, words)
       }
 
 

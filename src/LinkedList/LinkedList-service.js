@@ -1,24 +1,35 @@
 const LinkedList = require('./LinkedList');
 
-const WordList = {}
+const WordList = new LinkedList;
 
 const LinkedListService = {
-    createLinkedList(head, words) {
-        let list = new LinkedList;
+    createLinkedList(list, head, words) {
+
         const getWord = id => words.find(w => w.id === id)
+
         const addWord = word => {
-            if (word.value.next === null) {
+            if (!word.next) {
                 return;
             }
-            list.insertLast(word)
 
-            return addWord(getWord(word.next))
+            const nextWord = getWord(word.next)
+
+            list.insertLast(word, nextWord)
+
+            return addWord(nextWord)
         }
-        console.log(list)
-        addWord(getWord(head))
+
+        let listHead = getWord(head)
+
+        let listHeadNext = getWord(listHead.next)
+
+        list.insertFirst(listHead, listHeadNext)
+
+        addWord(listHeadNext)
 
         return list;
     },
+
     moveWord(list, word, pos) {
         let head = list.removeHead()
         list.insertAt(head, pos)
