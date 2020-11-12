@@ -64,7 +64,22 @@ const LanguageService = {
         incorrect_count: head.incorrect_count + 1,
         memory_value: 1
       })
-    //then update LL
+  },
+
+  updateNext(db, lang_id, head, next) {
+    return db
+      .from('word')
+      .where({ original: head.original })
+      .update({
+        next
+      }).then(() => {
+        return db
+          .from('language')
+          .where({ id: lang_id })
+          .update({
+            head: next
+          })
+      })
   }
 
 

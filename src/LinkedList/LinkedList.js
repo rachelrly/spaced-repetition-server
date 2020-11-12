@@ -37,6 +37,8 @@ class LinkedList {
 
         let next = node.next;
         node.next = new _Node(item, next)
+
+        return next.value.next
     }
     removeHead() {
         let hold = this.head;

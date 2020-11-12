@@ -4,7 +4,7 @@ const { requireAuth } = require('../middleware/jwt-auth')
 const languageRouter = express.Router()
 const jsonBodyParser = express.json()
 const { LinkedListService, WordList } = require('../LinkedList/LinkedList-service')
-console.log('WORDLIST', WordList)
+
 
 languageRouter
   .use(requireAuth)
@@ -60,7 +60,7 @@ languageRouter
       )
       console.log(head.head)
 
-      if (!WordList.head || WordList.head === null) {
+      if (!WordList.head) {
         LinkedListService.createLinkedList(WordList, head.head, words)
       }
 
@@ -83,19 +83,26 @@ languageRouter
   .route('/guess')
   .post(jsonBodyParser, async (req, res, next) => {
     const { answer } = req.body;
+
     try {
       const [head] = await LanguageService.getHead(
         req.app.get('db'),
         req.language.id
       )
-      console.log('answer', req.body.answer, 'correct', head.translation)
 
-      if (answer == head.translation) {
+      if (answer === head.translation) {
         const h = await LanguageService.updateCorrect(
           req.app.get('db'),
           req.language.id,
           head
         )
+          .then(() => LinkedListService.moveWord(WordList, answer, head.memory_score * 2)
+            .then((r) => LanguageService.updateNext(
+              req.app.get('db'),
+              req.language.id,
+              head, r))
+          )
+
         return res
           .status(200)
           .json({ answer: true })

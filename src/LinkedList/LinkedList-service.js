@@ -32,7 +32,7 @@ const LinkedListService = {
 
     moveWord(list, word, pos) {
         let head = list.removeHead()
-        list.insertAt(head, pos)
+        return list.insertAt(head, pos)
     }
 
 }
