@@ -58,12 +58,10 @@ languageRouter
         req.app.get('db'),
         req.language.id
       )
-      console.log(head.head)
 
       if (!WordList.head) {
         LinkedListService.createLinkedList(WordList, head.head, words)
       }
-
 
       res.json({
         nextWord: head.original,
@@ -90,36 +88,21 @@ languageRouter
         req.language.id
       )
 
-      if (answer === head.translation) {
-        const h = await LanguageService.updateCorrect(
-          req.app.get('db'),
-          req.language.id,
-          head
-        )
-          .then(() => LinkedListService.moveWord(WordList, answer, head.memory_score * 2)
-            .then((r) => LanguageService.updateNext(
-              req.app.get('db'),
-              req.language.id,
-              head, r))
-          )
+      const isCorrect = answer == head.correct ? true : false
+      let moved = await LinkedListService.moveWord(WordList, answer, isCorrect)
 
+      LanguageService.updateWordAndHead(
+        req.app.get('db'),
+        req.language.id,
+        { ...moved, isCorrect, head }
+      ).then(() => {
         return res
           .status(200)
-          .json({ answer: true })
+          .json({ answer: isCorrect })
           .end()
-
-      } else {
-        const h = await LanguageService.updateIncorrect(
-          req.app.get('db'),
-          head
-        )
-        return res
-          .status(200)
-          .json({ answer: false })
-          .end()
-      }
-
+      })
     } catch (error) {
+
       next(error)
     }
   })

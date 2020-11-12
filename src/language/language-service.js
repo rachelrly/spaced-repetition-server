@@ -38,51 +38,50 @@ const LanguageService = {
       .where({ language_id })
   },
 
-  updateCorrect(db, language_id, head) {
-    return db
-      .from('language')
-      .where({ id: language_id })
-      .update({ total_score: head.total_score + 1 })
-      .then(() => {
-        return db
-          .from('word')
-          .where({ original: head.original })
-          .update({
-            correct_count: head.correct_count + 1,
-            memory_value: head.memory_value * 2
-          })
-      })
+  updateWordAndHead(db, language_id, obj) {
+    const { old, newHead, isCorrect, head } = obj;
+    console.log(obj)
+    if (isCorrect === true) {
+      return db
+        .from('word')
+        .update({
+          total_score: head.total_score + 1,
+          correct_count: head.correct_count + 1,
+          memory_value: old.memory_value,
+          next: old.next
+        })
+        .where({ 'id': old.head })
+        .then(() => {
+          return db
+            .from('language')
+            .update({
+              head: newHead
+            })
+            .where({ id: language_id })
+        })
+    }
+    else if (isCorrect === false) {
+      console.log(isCorrect)
+      return db
+        .from('word')
+        .update({
+          incorrect_count: head.incorrect_count + 1,
+          memory_value: old.memory_value,
+          next: old.next
+        })
+        .where({ id: old.head })
+        .then(() => {
+          return db
+            .from('language')
+            .update({
+              head: newHead
+            })
+            .where({ id: language_id })
+        })
 
-    //then update LL
-  },
+    }
 
-  updateIncorrect(db, head) {
-    return db
-      .from('word')
-      .where({ original: head.original })
-      .update({
-        incorrect_count: head.incorrect_count + 1,
-        memory_value: 1
-      })
-  },
-
-  updateNext(db, lang_id, head, next) {
-    return db
-      .from('word')
-      .where({ original: head.original })
-      .update({
-        next
-      }).then(() => {
-        return db
-          .from('language')
-          .where({ id: lang_id })
-          .update({
-            head: next
-          })
-      })
   }
-
-
 
 
 }

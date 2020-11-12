@@ -38,9 +38,14 @@ class LinkedList {
         let next = node.next;
         node.next = new _Node(item, next)
 
-        return next.value.next
+
+
+        return next.value.next ? next.value.next : node.value.next
     }
     removeHead() {
+        if (!this.head.next) {
+            return null;
+        }
         let hold = this.head;
         this.head = this.head.next
         return hold;
