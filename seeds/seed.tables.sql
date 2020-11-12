@@ -21,18 +21,18 @@ VALUES
 
 INSERT INTO "word" ("id", "language_id", "original", "translation", "next")
 VALUES
-  (1, 1, 'ante', 'Before', 2),
-  (2, 1, 'contra', 'Opposite, against, contrary to', 3),
-  (3, 1, 'quia', 'Because', 4),
-  (4, 1, 'Solus', 'Alone, only, lonely, single', 5),
-  (5, 1, 'Totus', 'All, whole, entire', 6),
-  (6, 1, 'Dicere', 'To say', 7),
-  (7, 1, 'Videre', 'To look, see', 8),
-  (8, 1, 'Facere', 'To make, do', 9),
-  (9, 1, 'Totus', 'All, whole, entire', 10),
-  (10, 1, 'Dies', 'Day', 11),
-  (11, 1, 'Nomen', 'Name', 12),
-  (12, 1, 'Cibus', 'Food', null);
+  (1, 1, 'ante', 'before', 2),
+  (2, 1, 'contra', 'against', 3),
+  (3, 1, 'quia', 'because', 4),
+  (4, 1, 'solus', 'alone', 5),
+  (5, 1, 'totus', 'all', 6),
+  (6, 1, 'dicere', 'to say', 7),
+  (7, 1, 'videre', 'to look', 8),
+  (8, 1, 'facere', 'to make', 9),
+  (9, 1, 'totus', 'whole', 10),
+  (10, 1, 'dies', 'day', 11),
+  (11, 1, 'nomen', 'name', 12),
+  (12, 1, 'cibus', 'food', null);
 
 UPDATE "language" SET head = 1 WHERE id = 1;
 

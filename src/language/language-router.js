@@ -3,7 +3,8 @@ const LanguageService = require('./language-service')
 const { requireAuth } = require('../middleware/jwt-auth')
 const languageRouter = express.Router()
 const jsonBodyParser = express.json()
-
+const { LinkedListService, WordList } = require('../LinkedList/LinkedList-service')
+console.log('WORDLIST', WordList)
 languageRouter
   .use(requireAuth)
   .use(async (req, res, next) => {
@@ -45,11 +46,23 @@ languageRouter
 
 languageRouter
   .get('/head', async (req, res, next) => {
+
     try {
       const [head] = await LanguageService.getHead(
         req.app.get('db'),
         req.language.id
       )
+
+      const [words] = await LanguageService.getLanguageWords(
+        req.app.get('db'),
+        req.language.id
+      )
+
+      if (WordList === {}) {
+        WordList = LinkedListService.createLinkedList(head.id, words)
+      }
+
+
       res.json({
         nextWord: head.original,
         wordCorrectCount: head.correct_count,
@@ -65,14 +78,15 @@ languageRouter
   })
 
 languageRouter
-  .post('/guess', jsonBodyParser, async (req, res, next) => {
-    console.log('REQUEST BODY', req.body)
+  .route('/guess')
+  .post(jsonBodyParser, async (req, res, next) => {
     const { answer } = req.body;
     try {
       const [head] = await LanguageService.getHead(
         req.app.get('db'),
         req.language.id
       )
+      console.log('answer', req.body.answer, 'correct', head.translation)
 
       if (answer == head.translation) {
         const h = await LanguageService.updateCorrect(

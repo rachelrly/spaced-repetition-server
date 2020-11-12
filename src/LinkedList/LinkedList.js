@@ -26,27 +26,24 @@ class LinkedList {
             tempNode.next = new _Node(item, null);
         }
     }
+    insertAt(item, pos) {
+        let node = this.head;
+        let counter = 1
 
-    insertSecond() {
-        let temp1 = this.head;
-        console.log('temp1', temp1)
-        let temp2 = temp1.next;
-        this.head = temp2
-        this.head.next = new _Node(temp1, temp1.next)
-        // console.log('head', this.head, 'head.next', this.head.next, 'head.next.next', this.head.next.next)
+        while (counter < pos - 1) {
+            counter++
+            node = node.next
+        }
 
+        let next = node.next;
+        node.next = new _Node(item, next)
+    }
+    removeHead() {
+        let hold = this.head;
+        this.head = this.head.next
+        return hold;
     }
 
-    // insertAfter(item, after) {
-    //     let tempNode = this.head;
-    //     while (tempNode.next !== this.find(after)) {
-    //         tempNode = tempNode.next;
-    //     }
-    //     tempNode = tempNode.next.next;
-    //     let num = tempNode.next;
-    //     tempNode.next = new _Node(item, num);
-
-    // }
 }
 
 module.exports = LinkedList;

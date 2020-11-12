@@ -175,18 +175,18 @@ describe('User Endpoints', function () {
           name: 'Latin',
           total_score: 0,
           words: [
-            { original: 'ante', translation: 'Before' },
-            { original: 'contra', translation: 'Opposite, against, contrary to' },
-            { original: 'quia', translation: 'Because' },
-            { original: 'Solus', translation: 'Alone, only, lonely, single' },
-            { original: 'Totus', translation: 'All, whole, entire' },
-            { original: 'Dicere', translation: 'To say' },
-            { original: 'Videre', translation: 'To look, see' },
-            { original: 'Facere', translation: 'To make, do' },
-            { original: 'Totus', translation: 'All, whole, entire' },
-            { original: 'Dies', translation: 'Day' },
-            { original: 'Nomen', translation: 'Name' },
-            { original: 'Cibus', translation: 'Food' }
+            { original: 'ante', translation: 'before' },
+            { original: 'contra', translation: 'against' },
+            { original: 'quia', translation: 'because' },
+            { original: 'solus', translation: 'alone' },
+            { original: 'totus', translation: 'all' },
+            { original: 'dicere', translation: 'to say' },
+            { original: 'videre', translation: 'to look' },
+            { original: 'facere', translation: 'to make' },
+            { original: 'totus', translation: 'whole' },
+            { original: 'dies', translation: 'day' },
+            { original: 'nomen', translation: 'name' },
+            { original: 'cibus', translation: 'food' }
           ]
         }
         return supertest(app)

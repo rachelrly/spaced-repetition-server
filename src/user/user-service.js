@@ -58,18 +58,18 @@ const UserService = {
         .first()
 
       const languageWords = [
-        ['ante', 'Before', 2],
-        ['contra', 'Opposite, against, contrary to', 3],
-        ['quia', 'Because', 4],
-        ['Solus', 'Alone, only, lonely, single', 5],
-        ['Totus', 'All, whole, entire', 6],
-        ['Dicere', 'To say', 7],
-        ['Videre', 'To look, see', 8],
-        ['Facere', 'To make, do', 9],
-        ['Totus', 'All, whole, entire', 10],
-        ['Dies', 'Day', 11],
-        ['Nomen', 'Name', 12],
-        ['Cibus', 'Food', null]
+        ['ante', 'before', 2],
+        ['contra', 'against', 3],
+        ['quia', 'because', 4],
+        ['solus', 'alone', 5],
+        ['totus', 'whole', 6],
+        ['dicere', 'to say', 7],
+        ['videre', 'to look', 8],
+        ['facere', 'to make', 9],
+        ['totus', 'whole', 10],
+        ['dies', 'day', 11],
+        ['nomen', 'name', 12],
+        ['cibus', 'food', null]
       ]
 
       const [languageHeadId] = await trx
