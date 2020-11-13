@@ -39,51 +39,32 @@ const LanguageService = {
   },
 
   updateWordAndHead(db, language_id, obj) {
-    const { old, newHead, isCorrect, head } = obj;
-    console.log(obj)
-    if (isCorrect === true) {
-      return db
-        .from('word')
-        .update({
-          total_score: head.total_score + 1,
-          correct_count: head.correct_count + 1,
-          memory_value: old.memory_value,
-          next: old.next
-        })
-        .where({ 'id': old.head })
-        .then(() => {
-          return db
-            .from('language')
-            .update({
-              head: newHead
-            })
-            .where({ id: language_id })
-        })
-    }
-    else if (isCorrect === false) {
-      console.log(isCorrect)
-      return db
-        .from('word')
-        .update({
-          incorrect_count: head.incorrect_count + 1,
-          memory_value: old.memory_value,
-          next: old.next
-        })
-        .where({ id: old.head })
-        .then(() => {
-          return db
-            .from('language')
-            .update({
-              head: newHead
-            })
-            .where({ id: language_id })
-        })
-
-    }
+    const { wordIncorrectCount, wordCorrectCount, totalScore, newHead, newNext, memoryVal, oldHead } = obj;
+    console.log('CORRECT', wordCorrectCount)
+    return db
+      .from('word')
+      .update({
+        incorrect_count: wordIncorrectCount,
+        correct_count: wordCorrectCount,
+        memory_value: memoryVal,
+        next: newNext
+      })
+      .where({ original: oldHead })
+      .then(() => {
+        return db
+          .from('language')
+          .update({
+            head: newHead,
+            total_score: totalScore
+          })
+          .where({ id: language_id })
+      })
 
   }
 
-
 }
+
+
+
 
 module.exports = LanguageService

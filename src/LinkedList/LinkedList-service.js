@@ -1,27 +1,30 @@
 const LinkedList = require('./LinkedList');
 
-const WordList = new LinkedList;
+
 
 const LinkedListService = {
-    createLinkedList(list, head, words) {
+    createLinkedList(head, words) {
+
+        const list = new LinkedList;
 
         const getWord = id => words.find(w => w.id === id)
 
         const addWord = word => {
-            if (!word.next) {
+            if (!word) {
                 return;
             }
 
-            const nextWord = getWord(word.next)
+            const nextWord = getWord(word.next) ? getWord(word.next) : null
 
             list.insertLast(word, nextWord)
 
             return addWord(nextWord)
         }
-
+        console.log('about to call get word with head', head)
         let listHead = getWord(head)
 
-        let listHeadNext = getWord(listHead.next)
+        console.log('get word returned, listHead', listHead)
+        let listHeadNext = getWord(listHead.next) ? getWord(listHead.next) : null
 
         list.insertFirst(listHead, listHeadNext)
 
@@ -30,24 +33,36 @@ const LinkedListService = {
         return list;
     },
 
-    moveWord(list, word, bool) {
-        console.log('bool in LL-service', bool)
-        const memory_value = bool === true ? word.memory_value * 2 : 1
-        let head = list.removeHead()
-        let next = list.insertAt(head, memory_value)
-        return {
-            old: {
-                head: head.value.id,
-                next: next,
-                memory_value,
-            },
-            newHead: list.head.value.id
-        }
+    moveWord(list, num) {
+        let hold = list.head;
+
+        list.removeHead()
+
+        return list.insertAt(hold, num)
+
+
+    },
+    getHead(list) {
+        return list.head.value
     }
 
 }
 
 module.exports = {
     LinkedListService,
-    WordList
+
 };
+
+function display(list) {
+    let thisNode = list.head;
+    let output = "";
+    while (thisNode !== null) {
+        if (thisNode !== list.head) {
+            output += " -> ";
+        }
+        output += `OG: ${thisNode.value.original}, ID: ${thisNode.value.id}, NEXT: ${thisNode.value.next}`;
+        thisNode = thisNode.next;
+    }
+
+    return output;
+}

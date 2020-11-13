@@ -1,3 +1,5 @@
+const { listen } = require("../app");
+
 class _Node {
     constructor(value, next) {
         this.value = value;
@@ -28,27 +30,64 @@ class LinkedList {
     }
     insertAt(item, pos) {
         let node = this.head;
-        let counter = 1
 
-        while (counter < pos - 1) {
-            counter++
-            node = node.next
+        if (pos === 1) {
+            node = node.next;
+            const hold = node.next;
+            node.next = new _Node(item, hold)
+
+            return {
+                head: this.head.value.id,
+                next: node.value.next
+            }
+
+        } else {
+            let counter = 1
+
+            while (counter < pos || node.next) {
+                counter++
+                node = node.next
+            }
+
+            if (node.next) {
+                let next = node.next
+                node.next = new _Node(item, next)
+                console.log(this.head.value.id)
+                return {
+                    head: this.head.value.id,
+                    next: node.value.next
+                }
+
+            } else {
+                node.next = new _Node(item, null)
+                console.log(this.head.value.id)
+                return {
+                    head: this.head.value.id,
+                    next: null
+                }
+            }
+
+
+
+
         }
 
-        let next = node.next;
-        node.next = new _Node(item, next)
 
 
 
-        return next.value.next ? next.value.next : node.value.next
+
+
+
     }
     removeHead() {
-        if (!this.head.next) {
-            return null;
+        if (this.head) {
+            let hold = this.head;
+            this.head = this.head.next
+            return hold;
+
         }
-        let hold = this.head;
-        this.head = this.head.next
-        return hold;
+
+        return null;
     }
 
 }
