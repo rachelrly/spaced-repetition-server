@@ -1,7 +1,5 @@
 const LinkedList = require('./LinkedList');
 
-
-
 const LinkedListService = {
     createLinkedList(head, words) {
 
@@ -35,34 +33,14 @@ const LinkedListService = {
 
     moveWord(list, num) {
         let hold = list.head;
-
         list.removeHead()
-
         return list.insertAt(hold, num)
-
-
     },
+
     getHead(list) {
         return list.head.value
     }
 
 }
 
-module.exports = {
-    LinkedListService,
-
-};
-
-function display(list) {
-    let thisNode = list.head;
-    let output = "";
-    while (thisNode !== null) {
-        if (thisNode !== list.head) {
-            output += " -> ";
-        }
-        output += `OG: ${thisNode.value.original}, ID: ${thisNode.value.id}, NEXT: ${thisNode.value.next}`;
-        thisNode = thisNode.next;
-    }
-
-    return output;
-}
+module.exports = LinkedListService

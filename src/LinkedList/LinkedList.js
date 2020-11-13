@@ -1,5 +1,3 @@
-const { listen } = require("../app");
-
 class _Node {
     constructor(value, next) {
         this.value = value;
@@ -28,6 +26,7 @@ class LinkedList {
             tempNode.next = new _Node(item, null);
         }
     }
+
     insertAt(item, pos) {
         let node = this.head;
 
@@ -37,8 +36,8 @@ class LinkedList {
             node.next = new _Node(item, hold)
 
             return {
-                head: this.head.value.id,
-                next: node.value.next
+                newHead: this.head.value,
+                newNext: node.next.value
             }
 
         } else {
@@ -54,39 +53,25 @@ class LinkedList {
                 node.next = new _Node(item, next)
                 console.log(this.head.value.id)
                 return {
-                    head: this.head.value.id,
-                    next: node.value.next
+                    newHead: this.head.value,
+                    newNext: node.next.value
                 }
 
             } else {
                 node.next = new _Node(item, null)
-                console.log(this.head.value.id)
                 return {
-                    head: this.head.value.id,
-                    next: null
+                    newHead: this.head.value,
+                    newNext: null
                 }
             }
-
-
-
-
         }
-
-
-
-
-
-
-
     }
     removeHead() {
         if (this.head) {
             let hold = this.head;
             this.head = this.head.next
             return hold;
-
         }
-
         return null;
     }
 
