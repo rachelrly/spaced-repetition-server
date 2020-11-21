@@ -11,68 +11,81 @@ class LinkedList {
     }
 
     insertFirst(item) {
-        this.head = new _Node(item, this.head)
-    }
 
-    insertLast(item) {
         if (this.head === null) {
-            this.insertFirst(item);
+            this.head = new _Node(item, this.head)
         }
         else {
             let tempNode = this.head;
-            while (tempNode.next !== null) {
-                tempNode = tempNode.next;
-            }
-            tempNode.next = new _Node(item, null);
+            this.head = new _Node(item, tempNode)
         }
     }
 
     insertAt(item, pos) {
-        let node = this.head;
-
         if (pos === 1) {
-            node = node.next;
-            const hold = node.next;
-            node.next = new _Node(item, hold)
+            let node = this.head;
+            let hold = node.next;
+            const newNode = new _Node(item, hold);
+            node.next = newNode;
 
             return {
-                newHead: this.head.value,
-                newNext: node.next.value
+                newHead: { ...this.head.value },
+                beforeMoved: { ...node.value },
+                moved: { ...newNode.value }
             }
+        }
 
-        } else {
-            let counter = 1
+        let node = this.find(pos - 1);
 
-            while (counter < pos || node.next) {
-                counter++
-                node = node.next
+        if (node.next == null) {
+            const newNode = new _Node(item, null)
+
+            node.next = newNode;
+
+            return {
+                newHead: { ...this.head.value },
+                beforeMoved: { ...node.value },
+                moved: { ...newNode.value }
             }
+        }
 
-            if (node.next) {
-                let next = node.next
-                node.next = new _Node(item, next)
-                console.log(this.head.value.id)
-                return {
-                    newHead: this.head.value,
-                    newNext: node.next.value
-                }
+        else {
 
-            } else {
-                node.next = new _Node(item, null)
-                return {
-                    newHead: this.head.value,
-                    newNext: null
-                }
+            let hold = node.next
+            const newNode = new _Node(item, hold)
+            node.next = newNode;
+
+            return {
+                newHead: { ...this.head.value },
+                beforeMoved: { ...node.value },
+                moved: { ...newNode.value }
             }
         }
     }
+
+    find(pos) {
+
+        let node = this.head;
+        let i;
+
+        while (node.next && i < pos) {
+            node = node.next
+            i++;
+        }
+        return node;
+
+    }
+
     removeHead() {
         if (this.head) {
             let hold = this.head;
             this.head = this.head.next
             return hold;
         }
-        return null;
+        else {
+            return null;
+        }
+
     }
 
 }

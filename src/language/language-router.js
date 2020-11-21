@@ -49,17 +49,29 @@ languageRouter
   .get('/head', async (req, res, next) => {
 
     try {
-      const [head] = await LanguageService.getHead(
+
+      let lang = await LanguageService.getLanguageHead(
         req.app.get('db'),
         req.language.id
       )
 
-      res.json({
-        nextWord: head.original,
-        totalScore: head.total_score,
-        wordCorrectCount: head.correct_count,
-        wordIncorrectCount: head.incorrect_count
-      })
+      headId = lang.headId ? lang.headId : 1
+
+      console.log('HEAD ID', lang)
+
+      const [head] = await LanguageService.getHead(
+        req.app.get('db'),
+        headId
+      )
+
+      res
+        .status(200)
+        .json({
+          nextWord: head.original,
+          totalScore: lang.total_score,
+          wordCorrectCount: head.correct_count,
+          wordIncorrectCount: head.incorrect_count
+        })
 
       next()
     } catch (error) {
@@ -72,7 +84,7 @@ languageRouter
   .post(jsonBodyParser, async (req, res, next) => {
 
     const { guess } = req.body;
-
+    console.log('GUESS', guess)
     if (!guess) {
       res
         .status(400)
@@ -82,30 +94,28 @@ languageRouter
 
     try {
 
-      let [head] = await LanguageService.getHead(
-        req.app.get('db'),
-        req.language.id
-      )
-
-      console.log('HEAD IN LANG ROUTER', head)
-
       const words = await LanguageService.getLanguageWords(
         req.app.get('db'),
         req.language.id
       )
 
-      let update = LanguageService.handleUpdate(
+      const update = await LanguageService.handleGuess(
         req.app.get('db'),
         req.language.id,
-        head,
         words,
         guess
       )
 
+
       return res
         .status(200)
         .json({
-          ...update
+          nextWord,
+          totalScore,
+          wordIncorrectCount,
+          wordCorrectCount,
+          answer,
+          isCorrect
         })
 
     } catch (error) {
