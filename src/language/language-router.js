@@ -71,7 +71,6 @@ languageRouter
           wordIncorrectCount: head.incorrect_count
         })
 
-      next()
     } catch (error) {
       next(error)
     }

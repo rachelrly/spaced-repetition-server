@@ -35,15 +35,18 @@ const LanguageService = {
   getHead(db, id) {
     return db
       .from('word')
+      .where('word.id', id)
+      .join('language', { 'word.language_id': 'language.id' })
       .select(
-        'id',
-        'original',
-        'translation',
-        'correct_count',
-        'incorrect_count',
-        'memory_value'
+        'word.id',
+        'word.original',
+        'word.translation',
+        'word.correct_count',
+        'word.incorrect_count',
+        'word.memory_value',
+        'language.total_score'
       )
-      .where({ id })
+
   },
   getLanguageHead(db, language_id) {
     return db
@@ -105,7 +108,7 @@ const LanguageService = {
         wordIncorrectCount: nodes.newHead.incorrect_count,
         wordCorrectCount: nodes.newHead.correct_count,
         answer: nodes.moved.translation,
-        total_score,
+        totalScore: score,
         isCorrect: true
       }
 
@@ -121,7 +124,7 @@ const LanguageService = {
         .from('language')
         .where({ id: language_id })
 
-      score = Number(total_score)
+      const score = Number(total_score)
 
       await db
         .from('word')
@@ -153,7 +156,7 @@ const LanguageService = {
         wordIncorrectCount: nodes.newHead.incorrect_count,
         wordCorrectCount: nodes.newHead.correct_count,
         answer: nodes.moved.translation,
-        total_score: score,
+        totalScore: score,
         isCorrect: false
       }
     }
