@@ -55,105 +55,111 @@ const LanguageService = {
   async handleGuess(db, language_id, words, guess) {
     const ll = LinkedListService.createLinkedList(words)
 
-    if (guess == ll.head.value.original) {
+
+    //If correct
+    if (guess == ll.head.value.translation) {
+      console.log('answered correctly')
+
       let num = ll.head.value.memory_value * 2;
 
-      let newVals = LinkedListService.moveWord(ll, num);
-      console.log(newVals)
+      let nodes = LinkedListService.moveWord(ll, num);
+
+      const count = Number(nodes.moved.correct_count) + 1;
+
+      let [{ total_score }] = await db
+        .select('total_score')
+        .from('language')
+        .where({ id: language_id })
+
+      const score = Number(total_score) + 1;
+
+      await db
+        .from('word')
+        .where({ id: nodes.moved.id })
+        .update({
+          correct_count: count,
+          next: nodes.afterMoved.id,
+          memory_value: num
+        })
+
       await db
         .from('word')
         .update({
-
+          next: nodes.beforeMoved.id
         })
-        .where({})
-
+        .where({ id: nodes.beforeMoved.id })
 
       /* Update new head and total score for correct answer */
 
-      // let total_score = await db
-      //   .select('total_score')
-      //   .from('language')
-      //   .where({ id: language_id })
 
-      // total_score = total_score + 1;
+      await db
+        .from('language')
+        .update({
+          head: nodes.newHead.id,
+          total_score: score
+        })
+        .where({ id: language_id })
 
-      // return await db
-      //   .from('language')
-      //   .update({
-      //     head: newHead.id,
-      //     total_score
-      //   })
-      //   .where({ id: language_id })
+      return {
+        nextWord: nodes.newHead.original,
+        wordIncorrectCount: nodes.newHead.incorrect_count,
+        wordCorrectCount: nodes.newHead.correct_count,
+        answer: nodes.moved.translation,
+        total_score,
+        isCorrect: true
+      }
 
     }
     else {
 
-      const newVals = LinkedListService.moveWord(ll, 1);
-      console.log(newVals)
-      //move one space back
-      //adjust place in LL
-      //change values in the db
-      //new head
-      //new node.prev.next
-      //new node.next
+      let nodes = LinkedListService.moveWord(ll, 1);
+
+      const count = Number(nodes.moved.incorrect_count) + 1;
+
+      let [{ total_score }] = await db
+        .select('total_score')
+        .from('language')
+        .where({ id: language_id })
+
+      score = Number(total_score)
+
+      await db
+        .from('word')
+        .where({ id: nodes.moved.id })
+        .update({
+          incorrect_count: count,
+          next: nodes.afterMoved.id,
+          memory_value: 1
+        })
 
 
-      /* Update new head for incorrect answer */
-      // return await db
-      //   .from('language')
-      //   .update({
-      //     head: newHead.id
-      //   })
-      //   .where({ id: language_id })
+      await db
+        .from('word')
+        .update({
+          next: nodes.beforeMoved.id
+        })
+        .where({ id: nodes.beforeMoved.id })
+
+
+      await db
+        .from('language')
+        .update({
+          head: nodes.newHead.id
+        })
+        .where({ id: language_id })
+
+      return {
+        nextWord: nodes.newHead.original,
+        wordIncorrectCount: nodes.newHead.incorrect_count,
+        wordCorrectCount: nodes.newHead.correct_count,
+        answer: nodes.moved.translation,
+        total_score: score,
+        isCorrect: false
+      }
     }
   },
 
 }
-
-// handleUpdate(db, language_id, head, arr, guess) {
-
-//   const isCorrect = guess === head.translation ? true : false
-
-//   const correct = isCorrect === true ? head.correct_count + 1 : head.correct_count
-//   const incorrect = isCorrect === true ? head.incorrect_count : head.incorrect_count + 1
-//   const total = isCorrect === true ? head.total_score + 1 : head.total_score
-//   const pos = isCorrect === true ? 2 : 1
-
-//   const { newHead, newNext } = this.handleLinkedList(head, arr, pos);
-
-//   //edit different notes loop over list and check over
-//   //transactions sql group queries 
-
-//   return db
-//     .from('word')
-//     .update({
-//       incorrect_count: incorrect,
-//       correct_count: correct,
-//       memory_value: pos,
-//       next: newNext.id
-//     })
-//     .where('id', head.id)
-//     .then(() => {
-//       return db
-//         .from('language')
-//         .update({
-//           head: newHead.id,
-//           total_score: total
-//         })
-//         .where({ id: language_id })
-//         .then(() => {
-//           return {
-//             nextWord: newNext.original,
-//             totalScore: total,
-//             wordCorrectCount: correct,
-//             wordIncorrectCount: incorrect,
-//             answer: head.translation,
-//             isCorrect
-//           }
-//         })
-//     })
-// }
-
 
 
 

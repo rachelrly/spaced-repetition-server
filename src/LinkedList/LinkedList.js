@@ -23,42 +23,46 @@ class LinkedList {
 
     insertAt(item, pos) {
         if (pos === 1) {
+            console.log('moved 2 places')
             let node = this.head;
             let hold = node.next;
-            const newNode = new _Node(item, hold);
+            const newNode = new _Node(item.value, hold);
             node.next = newNode;
 
             return {
                 newHead: { ...this.head.value },
                 beforeMoved: { ...node.value },
-                moved: { ...newNode.value }
+                moved: item.value,
+                afterMoved: { ...newNode.next.value }
             }
         }
 
         let node = this.find(pos - 1);
 
         if (node.next == null) {
-            const newNode = new _Node(item, null)
+            console.log('moved to end')
+            const newNode = new _Node(item.value, null)
 
             node.next = newNode;
 
             return {
                 newHead: { ...this.head.value },
                 beforeMoved: { ...node.value },
-                moved: { ...newNode.value }
+                moved: item.value,
+                afterMoved: null,
             }
         }
 
         else {
-
+            console.log('moved n places')
             let hold = node.next
-            const newNode = new _Node(item, hold)
+            const newNode = new _Node(item.value, hold)
             node.next = newNode;
-
             return {
                 newHead: { ...this.head.value },
                 beforeMoved: { ...node.value },
-                moved: { ...newNode.value }
+                moved: item.value,
+                afterMoved: { ...newNode.next.value }
             }
         }
     }

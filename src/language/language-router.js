@@ -57,8 +57,6 @@ languageRouter
 
       headId = lang.headId ? lang.headId : 1
 
-      console.log('HEAD ID', lang)
-
       const [head] = await LanguageService.getHead(
         req.app.get('db'),
         headId
@@ -84,7 +82,7 @@ languageRouter
   .post(jsonBodyParser, async (req, res, next) => {
 
     const { guess } = req.body;
-    console.log('GUESS', guess)
+
     if (!guess) {
       res
         .status(400)
@@ -106,17 +104,10 @@ languageRouter
         guess
       )
 
-
+      console.log(update)
       return res
         .status(200)
-        .json({
-          nextWord,
-          totalScore,
-          wordIncorrectCount,
-          wordCorrectCount,
-          answer,
-          isCorrect
-        })
+        .json({ ...update })
 
     } catch (error) {
 
