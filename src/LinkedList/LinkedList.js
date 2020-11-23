@@ -24,9 +24,6 @@ class LinkedList {
     }
 
     insertAt(item, pos) {
-        console.log('//////////////////////////////////////////////')
-        console.log('insertAt(item, POS) =', pos)
-        //pos ==== 1 || pos === 2 got 4/6 values in test correct
         if (pos === 1) {
 
             let node = this.head;
@@ -43,9 +40,7 @@ class LinkedList {
         }
         else {
             let node = this.find(pos);
-            console.log('node found at LL 45', node)
             if (node.next == null) {
-                console.log('NODE.NEXT is null. found node:', node)
                 const newNode = new _Node(item, null)
 
                 node.next = newNode;
@@ -59,14 +54,10 @@ class LinkedList {
             }
             //this needs to be inserted before node not after
             else {
-                console.log('Else ran in LL file.', this.head.value, node.value)
                 //one before this?
                 let hold = node.next.next
-                console.log('HOLD', hold.value)
                 const newNode = new _Node(item, hold)
-                console.log('NEW NODE', newNode);
                 node.next = newNode;
-                console.log('NODE', node.value, 'NODE NEXT', node.next.value)
 
                 return {
                     newHead: { ...this.head.value },

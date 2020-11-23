@@ -56,16 +56,8 @@ const LanguageService = {
   },
 
   async handleGuess(db, language_id, words, guess) {
-    console.log('//////////////////////////////////////////////')
-    console.log('Current word list:', words.map(w => `id: ${w.id} next: ${w.next} original: ${w.original} translation: ${w.translation}`))
-    console.log('//////////////////////////////////////////////')
 
     const ll = LinkedListService.createLinkedList(words)
-
-    console.log('//////////////////////////////////////////////')
-    console.log('Current guess in LanguageService', guess)
-    console.log('Current list head:', ll.head.value)
-    console.log('//////////////////////////////////////////////')
 
     //If correct
     if (guess == ll.head.value.translation) {
@@ -102,7 +94,6 @@ const LanguageService = {
 
       /* Update new head and total score for correct answer */
 
-      console.log('NEW HEAD', nodes.newHead)
       await db
         .from('language')
         .update({

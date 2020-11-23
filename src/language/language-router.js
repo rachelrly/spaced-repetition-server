@@ -98,8 +98,6 @@ languageRouter
         req.language.id
       )
 
-      console.log(head)
-
       const words = await LanguageService.getLanguageWords(
         req.app.get('db'),
         req.language.id

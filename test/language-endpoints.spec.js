@@ -239,10 +239,6 @@ describe('Language Endpoints', function () {
         let correctPostBody = {
           guess: testLanguagesWords[0].translation,
         }
-        console.log('/////////////////////////////////////////////////////')
-        console.log('FROM TEST LINE 242')
-        console.log('Correct post at time of test - 1', testLanguagesWords[0])
-        console.log('/////////////////////////////////////////////////////')
 
         await supertest(app)
           .post(`/api/language/guess`)
@@ -252,10 +248,6 @@ describe('Language Endpoints', function () {
         correctPostBody = {
           guess: testLanguagesWords[1].translation,
         }
-        console.log('/////////////////////////////////////////////////////')
-        console.log('FROM TEST LINE 256')
-        console.log('Correct post at time of test - 2', testLanguagesWords[1])
-        console.log('/////////////////////////////////////////////////////')
         await supertest(app)
           .post(`/api/language/guess`)
           .set('Authorization', helpers.makeAuthHeader(testUser))
