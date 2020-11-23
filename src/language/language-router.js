@@ -62,11 +62,13 @@ languageRouter
         headId
       )
 
+      const score = !lang.total_score ? 0 : lang.total_score;
+
       res
         .status(200)
         .json({
           nextWord: head.original,
-          totalScore: lang.total_score,
+          totalScore: score,
           wordCorrectCount: head.correct_count,
           wordIncorrectCount: head.incorrect_count
         })
@@ -91,6 +93,13 @@ languageRouter
 
     try {
 
+      const [head] = await LanguageService.getHead(
+        req.app.get('db'),
+        req.language.id
+      )
+
+      console.log(head)
+
       const words = await LanguageService.getLanguageWords(
         req.app.get('db'),
         req.language.id
@@ -103,7 +112,6 @@ languageRouter
         guess
       )
 
-      console.log(update)
       return res
         .status(200)
         .json({ ...update })

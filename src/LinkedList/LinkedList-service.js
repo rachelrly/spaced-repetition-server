@@ -14,8 +14,9 @@ const LinkedListService = {
     },
 
     moveWord(list, num) {
-        let hold = list.head;
+        let hold = list.head.value;
         list.removeHead()
+
         return list.insertAt(hold, num)
     }
 

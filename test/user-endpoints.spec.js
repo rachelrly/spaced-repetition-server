@@ -162,6 +162,7 @@ describe('User Endpoints', function () {
               .then(compareMatch => {
                 expect(compareMatch).to.be.true
               })
+              .done()
           )
       })
 
@@ -179,7 +180,7 @@ describe('User Endpoints', function () {
             { original: 'contra', translation: 'against' },
             { original: 'quia', translation: 'because' },
             { original: 'solus', translation: 'alone' },
-            { original: 'totus', translation: 'all' },
+            { original: 'totus', translation: 'whole' },
             { original: 'dicere', translation: 'to say' },
             { original: 'videre', translation: 'to look' },
             { original: 'facere', translation: 'to make' },

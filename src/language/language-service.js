@@ -56,17 +56,23 @@ const LanguageService = {
   },
 
   async handleGuess(db, language_id, words, guess) {
+    console.log('//////////////////////////////////////////////')
+    console.log('Current word list:', words.map(w => `id: ${w.id} next: ${w.next} original: ${w.original} translation: ${w.translation}`))
+    console.log('//////////////////////////////////////////////')
+
     const ll = LinkedListService.createLinkedList(words)
 
+    console.log('//////////////////////////////////////////////')
+    console.log('Current guess in LanguageService', guess)
+    console.log('Current list head:', ll.head.value)
+    console.log('//////////////////////////////////////////////')
 
     //If correct
     if (guess == ll.head.value.translation) {
-      console.log('answered correctly')
-
-      let num = ll.head.value.memory_value * 2;
+      const memVal = !ll.head.value.memory_value ? 1 : ll.head.value.memory_value;
+      let num = memVal * 2;
 
       let nodes = LinkedListService.moveWord(ll, num);
-
       const count = Number(nodes.moved.correct_count) + 1;
 
       let [{ total_score }] = await db
@@ -74,27 +80,29 @@ const LanguageService = {
         .from('language')
         .where({ id: language_id })
 
-      const score = Number(total_score) + 1;
+      const score = !total_score ? 1 : Number(total_score) + 1;
+
+      const next = !nodes.afterMoved ? null : nodes.afterMoved.id
 
       await db
         .from('word')
         .where({ id: nodes.moved.id })
         .update({
           correct_count: count,
-          next: nodes.afterMoved.id,
+          next,
           memory_value: num
         })
 
       await db
         .from('word')
         .update({
-          next: nodes.beforeMoved.id
+          next: nodes.moved.id
         })
         .where({ id: nodes.beforeMoved.id })
 
       /* Update new head and total score for correct answer */
 
-
+      console.log('NEW HEAD', nodes.newHead)
       await db
         .from('language')
         .update({
@@ -116,7 +124,6 @@ const LanguageService = {
     else {
 
       let nodes = LinkedListService.moveWord(ll, 1);
-
       const count = Number(nodes.moved.incorrect_count) + 1;
 
       let [{ total_score }] = await db
@@ -124,7 +131,7 @@ const LanguageService = {
         .from('language')
         .where({ id: language_id })
 
-      const score = Number(total_score)
+      const score = !total_score ? 0 : Number(total_score)
 
       await db
         .from('word')

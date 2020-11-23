@@ -25,7 +25,7 @@ VALUES
   (2, 1, 'contra', 'against', 3),
   (3, 1, 'quia', 'because', 4),
   (4, 1, 'solus', 'alone', 5),
-  (5, 1, 'totus', 'all', 6),
+  (5, 1, 'totus', 'whole', 6),
   (6, 1, 'dicere', 'to say', 7),
   (7, 1, 'videre', 'to look', 8),
   (8, 1, 'facere', 'to make', 9),
