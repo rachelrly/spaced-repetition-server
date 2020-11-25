@@ -9,7 +9,6 @@ const LinkedListService = {
             let temp = arr.pop()
             list.insertFirst(temp)
         }
-
         return list;
     },
 

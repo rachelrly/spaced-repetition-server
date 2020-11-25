@@ -40,51 +40,54 @@ class LinkedList {
         }
         else {
             let node = this.find(pos);
+            //we want node to be 3
+            console.log(`Node found at position ${pos}`, node.value)
             if (node.next == null) {
                 const newNode = new _Node(item, null)
-
                 node.next = newNode;
 
-                return {
+                const obj = {
                     newHead: { ...this.head.value },
                     beforeMoved: { ...node.value },
                     moved: item,
                     afterMoved: null,
                 }
+                console.log(obj)
+                return obj;
             }
             //this needs to be inserted before node not after
             else {
                 //one before this?
-                let hold = node.next.next
+                let hold = node.next
                 const newNode = new _Node(item, hold)
                 node.next = newNode;
 
-                return {
+                newNode.next = hold;
+
+                const obj = {
                     newHead: { ...this.head.value },
                     beforeMoved: { ...node.value },
                     moved: item,
-                    afterMoved: { ...newNode.next.value }
+                    afterMoved: { ...hold.value }
                 }
+
+                console.log('RETURNED OBJECT', obj)
+                return obj;
             }
         }
     }
 
     find(pos) {
-
         let node = this.head;
 
-        for (let i = 2; i < pos; i++) {
+        for (let i = 1; i < pos; i++) {
             if (!node.next) {
-                console.log('//////////////////////////////////////////////')
-                console.log(`Node returned because no next ${pos}`, node.value)
                 return node;
             }
             else {
                 node = node.next
             }
         }
-        console.log('//////////////////////////////////////////////')
-        console.log(`Node returned at position ${pos}`, node.value)
         return node;
     }
 

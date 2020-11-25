@@ -102,6 +102,7 @@ describe('Language Endpoints', function () {
             expect(word).to.have.property('memory_value', 1)
             expect(word).to.have.property('correct_count', 0)
             expect(word).to.have.property('incorrect_count', 0)
+
           })
         })
     })
@@ -211,12 +212,14 @@ describe('Language Endpoints', function () {
       })
     })
 
-    context(`Given correct guess`, () => {
+    context.only(`Given correct guess`, () => {
       const testLanguagesWords = testWords.filter(
         word => word.language_id === testLanguage.id
       )
 
       it(`responds with correct and moves head`, () => {
+        console.log('///////////////////////////////////////////')
+        console.log('NEW GUESS HANDLED')
         const correctPostBody = {
           guess: testLanguagesWords[0].translation,
         }
@@ -236,6 +239,8 @@ describe('Language Endpoints', function () {
       })
 
       it(`moves the word 2 spaces, increases score and correct count`, async () => {
+        console.log('///////////////////////////////////////////')
+        console.log('NEW GUESS HANDLED')
         let correctPostBody = {
           guess: testLanguagesWords[0].translation,
         }
@@ -248,6 +253,8 @@ describe('Language Endpoints', function () {
         correctPostBody = {
           guess: testLanguagesWords[1].translation,
         }
+        console.log('///////////////////////////////////////////')
+        console.log('NEW GUESS HANDLED')
         await supertest(app)
           .post(`/api/language/guess`)
           .set('Authorization', helpers.makeAuthHeader(testUser))
@@ -264,6 +271,8 @@ describe('Language Endpoints', function () {
         correctPostBody = {
           guess: testLanguagesWords[2].translation,
         }
+        console.log('///////////////////////////////////////////')
+        console.log('NEW GUESS HANDLED')
         await supertest(app)
           .post(`/api/language/guess`)
           .set('Authorization', helpers.makeAuthHeader(testUser))

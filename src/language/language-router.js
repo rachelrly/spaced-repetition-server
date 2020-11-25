@@ -92,12 +92,6 @@ languageRouter
     }
 
     try {
-
-      const [head] = await LanguageService.getHead(
-        req.app.get('db'),
-        req.language.id
-      )
-
       const words = await LanguageService.getLanguageWords(
         req.app.get('db'),
         req.language.id

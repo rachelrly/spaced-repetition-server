@@ -35,8 +35,7 @@ const LanguageService = {
   getHead(db, id) {
     return db
       .from('word')
-      .where('word.id', id)
-      .join('language', { 'word.language_id': 'language.id' })
+      .join('language', { 'word.id': 'language.head' })
       .select(
         'word.id',
         'word.original',
@@ -54,15 +53,35 @@ const LanguageService = {
       .where({ id: language_id })
       .select('head', 'total_score')
   },
+  sortWords(head_id, words) {
 
+  },
   async handleGuess(db, language_id, words, guess) {
+    const [{ head }] = await db.select('head').from('language').where({ id: language_id })
+    let sortedWords = []
+    const getWordById = (arr, id) => arr.find(a => a.id === id)
 
-    const ll = LinkedListService.createLinkedList(words)
+    const sortWord = (word) => {
+      sortedWords.push(word)
+
+      if (word.next) {
+        sortWord(getWordById(words, word.next))
+      }
+    }
+
+    sortWord(getWordById(words, head))
+
+
+
+
+
+
+    const ll = LinkedListService.createLinkedList(sortedWords)
 
     //If correct
-    if (guess == ll.head.value.translation) {
-      const memVal = !ll.head.value.memory_value ? 1 : ll.head.value.memory_value;
-      let num = memVal * 2;
+    if (ll.head.value && guess == ll.head.value.translation) {
+      console.log('Current guess', guess, 'Current head value', ll.head.value.translation)
+      let num = ll.head.value.memory_value * 2;
 
       let nodes = LinkedListService.moveWord(ll, num);
       const count = Number(nodes.moved.correct_count) + 1;
@@ -93,7 +112,6 @@ const LanguageService = {
         .where({ id: nodes.beforeMoved.id })
 
       /* Update new head and total score for correct answer */
-
       await db
         .from('language')
         .update({
@@ -114,7 +132,10 @@ const LanguageService = {
     }
     else {
 
+      console.log('Current guess', guess, 'Current head value', ll.head.value.translation)
+
       let nodes = LinkedListService.moveWord(ll, 1);
+      console.log(nodes)
       const count = Number(nodes.moved.incorrect_count) + 1;
 
       let [{ total_score }] = await db
@@ -140,7 +161,7 @@ const LanguageService = {
           next: nodes.beforeMoved.id
         })
         .where({ id: nodes.beforeMoved.id })
-
+      console.log('NEW HEAD', nodes.newHead)
 
       await db
         .from('language')
