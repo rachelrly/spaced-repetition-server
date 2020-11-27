@@ -24,54 +24,50 @@ class LinkedList {
     }
 
     insertAt(item, pos) {
-        if (pos === 1) {
+        // if (pos === 1) {
 
-            let node = this.head;
-            let hold = node.next;
-            const newNode = new _Node(item, hold);
+        //     let node = this.head;
+        //     let hold = node.next;
+        //     const newNode = new _Node(item, hold);
+        //     node.next = newNode;
+
+        //     return {
+        //         newHead: { ...this.head.value },
+        //         beforeMoved: { ...node.value },
+        //         moved: item,
+        //         afterMoved: { ...newNode.next.value }
+        //     }
+        // }
+        // else {
+        let node = this.find(pos);
+        if (node.next == null) {
+            const newNode = new _Node(item, null)
             node.next = newNode;
 
-            return {
+            const obj = {
                 newHead: { ...this.head.value },
                 beforeMoved: { ...node.value },
                 moved: item,
-                afterMoved: { ...newNode.next.value }
+                afterMoved: null,
             }
+            return obj;
         }
         else {
-            let node = this.find(pos);
-            console.log(`Node found at position ${pos}`, node.value)
-            if (node.next == null) {
-                const newNode = new _Node(item, null)
-                node.next = newNode;
+            let hold = node.next
+            const newNode = new _Node(item, hold)
+            node.next = newNode;
 
-                const obj = {
-                    newHead: { ...this.head.value },
-                    beforeMoved: { ...node.value },
-                    moved: item,
-                    afterMoved: null,
-                }
-                console.log(obj)
-                return obj;
+            newNode.next = hold;
+
+            const obj = {
+                newHead: { ...this.head.value },
+                beforeMoved: { ...node.value },
+                moved: item,
+                afterMoved: { ...hold.value }
             }
-            else {
-                let hold = node.next
-                const newNode = new _Node(item, hold)
-                node.next = newNode;
-
-                newNode.next = hold;
-
-                const obj = {
-                    newHead: { ...this.head.value },
-                    beforeMoved: { ...node.value },
-                    moved: item,
-                    afterMoved: { ...hold.value }
-                }
-
-                console.log('RETURNED OBJECT', obj)
-                return obj;
-            }
+            return obj;
         }
+        // }
     }
 
     find(pos) {

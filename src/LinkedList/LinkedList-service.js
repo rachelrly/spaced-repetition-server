@@ -8,18 +8,19 @@ const LinkedListService = {
         let sortedWords = []
         const getWordById = id => words.find(a => a.id === id)
 
+        addWordtoList(getWordById(head))
+
         function addWordtoList(word) {
             list.insertLast(word)
 
-            if (word.next === null) {
+            if (!word.next) {
                 return null;
             }
-
-            const next = getWordById(word.next)
-            addWordtoList(next)
+            else {
+                const next = getWordById(word.next)
+                addWordtoList(next)
+            }
         }
-
-        addWordtoList(getWordById(head))
 
         return list;
     },

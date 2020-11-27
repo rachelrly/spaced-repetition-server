@@ -64,7 +64,6 @@ const LanguageService = {
 
     //If correct
     if (ll.head.value && guess == ll.head.value.translation) {
-      console.log('Current guess', guess, 'Current head value', ll.head.value.translation)
       let num = ll.head.value.memory_value * 2;
 
       let nodes = LinkedListService.moveWord(ll, num);
@@ -116,10 +115,7 @@ const LanguageService = {
     }
     else {
 
-      console.log('Current guess', guess, 'Current head value', ll.head.value.translation)
-
       let nodes = LinkedListService.moveWord(ll, 1);
-      console.log(nodes)
       const count = Number(nodes.moved.incorrect_count) + 1;
 
       let [{ total_score }] = await db
@@ -142,10 +138,9 @@ const LanguageService = {
       await db
         .from('word')
         .update({
-          next: nodes.beforeMoved.id
+          next: nodes.moved.id
         })
         .where({ id: nodes.beforeMoved.id })
-      console.log('NEW HEAD', nodes.newHead)
 
       await db
         .from('language')
