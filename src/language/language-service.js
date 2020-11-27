@@ -58,25 +58,9 @@ const LanguageService = {
   },
   async handleGuess(db, language_id, words, guess) {
     const [{ head }] = await db.select('head').from('language').where({ id: language_id })
-    let sortedWords = []
-    const getWordById = (arr, id) => arr.find(a => a.id === id)
-
-    const sortWord = (word) => {
-      sortedWords.push(word)
-
-      if (word.next) {
-        sortWord(getWordById(words, word.next))
-      }
-    }
-
-    sortWord(getWordById(words, head))
 
 
-
-
-
-
-    const ll = LinkedListService.createLinkedList(sortedWords)
+    const ll = LinkedListService.createLinkedList(words, head)
 
     //If correct
     if (ll.head.value && guess == ll.head.value.translation) {

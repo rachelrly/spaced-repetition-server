@@ -40,7 +40,6 @@ class LinkedList {
         }
         else {
             let node = this.find(pos);
-            //we want node to be 3
             console.log(`Node found at position ${pos}`, node.value)
             if (node.next == null) {
                 const newNode = new _Node(item, null)
@@ -55,9 +54,7 @@ class LinkedList {
                 console.log(obj)
                 return obj;
             }
-            //this needs to be inserted before node not after
             else {
-                //one before this?
                 let hold = node.next
                 const newNode = new _Node(item, hold)
                 node.next = newNode;
@@ -79,7 +76,6 @@ class LinkedList {
 
     find(pos) {
         let node = this.head;
-
         for (let i = 1; i < pos; i++) {
             if (!node.next) {
                 return node;
@@ -95,13 +91,24 @@ class LinkedList {
         if (this.head) {
             let hold = this.head;
             this.head = this.head.next
-
             return hold;
         }
         else {
             return null;
         }
+    }
 
+    insertLast(item) {
+        if (this.head === null) {
+            this.insertFirst(item);
+        }
+        else {
+            let tempNode = this.head;
+            while (tempNode.next !== null) {
+                tempNode = tempNode.next;
+            }
+            tempNode.next = new _Node(item, null);
+        }
     }
 
 }
