@@ -1,15 +1,27 @@
 # Spaced Repetition API
 
-This is a repository for the Spaced Repetition API--a language learning API that uses the spaced repetition technique.
+This repository contains the REST API for a language learning app that uses the spaced repetition technique.
 
-Live site: [Here](https://spaced-repetition-dun.vercel.app/)
+This technique is implemented through a linked list, which is generated every time a user makes a request to the `/api/language/guess` endpoint.
 
-Client repository: [Here](https://github.com/Rachanastasia/spaced-repetition-client)
+-a language learning API that uses the spaced repetition technique.
+
+View the [live app](https://spaced-repetition-dun.vercel.app/).
+
+View the [client repository](https://github.com/Rachanastasia/spaced-repetition-client)
 
 ## Images
 
 ![](screenshot1.jpg)
 ![](screenshot2.jpg)
+
+## Tech Stack
+
+- Node.js
+- Express.js
+- Knex.js
+- PostgreSQL
+- deployed with Heroku
 
 ## Codebase
 
