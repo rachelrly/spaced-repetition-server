@@ -4,8 +4,6 @@ This repository contains the REST API for a language learning app that uses the 
 
 This technique is implemented through a linked list, which is generated every time a user makes a request to the `/api/language/guess` endpoint.
 
--a language learning API that uses the spaced repetition technique.
-
 View the [live app](https://spaced-repetition-dun.vercel.app/).
 
 View the [client repository](https://github.com/Rachanastasia/spaced-repetition-client)
