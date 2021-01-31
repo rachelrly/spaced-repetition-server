@@ -8,8 +8,8 @@ Client repository: [Here](https://github.com/Rachanastasia/spaced-repetition-cli
 
 ## Images
 
-![]('screenshot1.jpg')
-![]('screenshot2.jpg')
+![](screenshot1.jpg)
+![](screenshot2.jpg)
 
 ## Codebase
 
