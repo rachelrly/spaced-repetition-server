@@ -24,21 +24,6 @@ class LinkedList {
     }
 
     insertAt(item, pos) {
-        // if (pos === 1) {
-
-        //     let node = this.head;
-        //     let hold = node.next;
-        //     const newNode = new _Node(item, hold);
-        //     node.next = newNode;
-
-        //     return {
-        //         newHead: { ...this.head.value },
-        //         beforeMoved: { ...node.value },
-        //         moved: item,
-        //         afterMoved: { ...newNode.next.value }
-        //     }
-        // }
-        // else {
         let node = this.find(pos);
         if (node.next == null) {
             const newNode = new _Node(item, null)
@@ -67,7 +52,7 @@ class LinkedList {
             }
             return obj;
         }
-        // }
+
     }
 
     find(pos) {
