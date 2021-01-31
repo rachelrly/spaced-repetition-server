@@ -6,7 +6,7 @@ This technique is implemented through a linked list, which is generated every ti
 
 View the [live app](https://spaced-repetition-dun.vercel.app/).
 
-View the [client repository](https://github.com/Rachanastasia/spaced-repetition-client)
+View the [client repository](https://github.com/Rachanastasia/spaced-repetition-client).
 
 ## Images
 
